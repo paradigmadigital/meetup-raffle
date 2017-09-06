@@ -31,9 +31,10 @@
 
 <div class="jumbotron">
     <div class="container">
-        <h2>Choose raffle</h2>
-        <a href="/raffle/jetbrains" class="btn btn-success" role="button">Jetbrains</a>
-        <a href="/raffle/bds" class="btn btn-success" role="button">BDS</a>
+        <h2>And the winner is...</h2><a href="/raffle/{{ raffle_name }}/winner" class="btn btn-success" role="button">get</a>
+        {% if winner %}
+            <h1><a href="{{ winner.url }}" target="_blank">{{ winner.nombre}}</a></h1>
+        {% endif %}
     </div>
 </div>
 

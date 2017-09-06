@@ -1,6 +1,6 @@
 import os
 import uuid
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, url_for, redirect
 import json
 import random
 
@@ -12,16 +12,25 @@ logger.setLevel(logging.INFO)
 
 app = Flask(__name__)
 
+ASSISTANTS_FILES = {
+    'jetbrains': 'jetbrains.xls',
+    'bds': 'bds.xls'
+}
+
 
 @app.route('/', methods=['GET'])
 def index():
     return render_template('index.html')
 
 
-@app.route('/raffle', methods=['GET'])
-def raffle():
-    ASSISSTANTS_FILE = 'Microservicios_y_Serverless_en_proyectos_Python.xls'
-    f = open(ASSISSTANTS_FILE)
+@app.route('/raffle/<name>', methods=['GET'])
+def raffle(name):
+    return render_template('raffle.html', raffle_name=name, winner=None)
+
+
+@app.route('/raffle/<name>/<get_winner>', methods=['GET'])
+def winner(name, get_winner):
+    f = open(ASSISTANTS_FILES.get(name))
     content = f.read()
 
     assistants = {}
@@ -38,23 +47,8 @@ def raffle():
 
     logger.info('Randomly get: (user: {}, name: {})'.format(winner_id, winner.get('nombre')))
 
-    return render_template('index.html', winner=winner)
+    return render_template('raffle.html', raffle_name=name, winner=winner)
 
-#
-# def lambda_handler(event, context):
-#     assistant = get_random_assistant()
-#     html = '<h1>...and the winner is: ' \
-#            '<a href="{}" target="_blank">{}</a></h1>' \
-#            '<a href="javascript:window.location.href=window.location.href">try again</a>'\
-#         .format(assistant.get('url'), assistant.get('nombre'))
-#
-#     return {
-#         'statusCode': '200',
-#         'body': html,
-#         'headers': {
-#             'Content-Type': 'text/html; charset=utf-8',
-#         }
-#     }
 
 if __name__ == '__main__':
     app.run(debug=True)
