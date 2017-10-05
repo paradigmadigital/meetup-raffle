@@ -1,0 +1,10 @@
+{
+    "dev": {
+        "app_function": "raffle_flask.app", 
+        "aws_region": "eu-west-1", 
+        "profile_name": "marketing", 
+        "project_name": "meetup-raffle",
+        "runtime": "python2.7",
+        "s3_bucket": "zappa-8i12dbj1f"
+    }
+}

@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="jumbotron">
+    <div class="container">
+        <h2>Select raffle</h2>
+        {% for raffle_name in raffles %}
+            <a href="{{ url_for('raffle', raffle_name=raffle_name) }}" class="btn btn-success" role="button">{{ raffle_name }}</a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="jumbotron">
+    <div class="container">
+        <h2>And the winner is...</h2><a href="{{ url_for('winner', raffle_name=raffle_name) }}" class="btn btn-success" role="button">get</a>
+        {% if winner %}
+            <h1><a href="{{ winner.url }}" target="_blank">{{ winner.name}}</a></h1>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
