@@ -25,11 +25,11 @@ Para desplegarlo es necesario tener instalado Python 2.7, un virtualenv con las 
 
 ### Crear el virtualenv
 
-1. crear un nuevo virtualenv
+1. crear un nuevo virtualenv:
 `$ virtualenv raffle-venv`
-2. activar el virtualenv
+2. activar el virtualenv:
 `$ source raffle-venv/bin/activate`
-3. instalar las dependencias
+3. instalar las dependencias:
 `$ pip install -r meetup-raffle/flask/requirements.txt`
 
 ### Credenciales AWS 
@@ -38,8 +38,8 @@ Es necesario solicitar un access key y un secret key y configurarse un profile d
 ### Desplegar con zappa
 Los settings que usa zappa para el despliegue están definidos en el fichero zappa_setting.json
 
-Despliegue inicial (sólo es necesario hacerlo la primera vez)
+Despliegue inicial (sólo es necesario hacerlo la primera vez):
 `$ zappa deploy`
 
-Actualizar el código
+Actualizar el código:
 `$ zappa update`
