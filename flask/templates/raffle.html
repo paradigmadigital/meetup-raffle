@@ -1,12 +1,28 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<div class="jumbotron">
-    <div class="container">
-        <h2>And the winner is...</h2><a href="{{ url_for('winner', raffle_name=raffle_name) }}" class="btn btn-success" role="button">get</a>
-        {% if winner %}
-            <h1><a href="{{ winner.url }}" target="_blank">{{ winner.name}}</a></h1>
-        {% endif %}
+    <div class="jumbotron">
+        <div class="container">
+            <h2>And the winner is...</h2><a href="{{ url_for('winner', raffle_name=raffle_name) }}" class="btn btn-success" role="button">get</a>
+
+        </div>
     </div>
-</div>
+    <div class="container">
+        {% if assistants %}
+            <ul class="list-group">
+                {% for assistant in assistants %}
+                    <a href="{{ assistant.url }}" target="_blank" class="list-group-item{% if assistant.winner %} list-group-item-success{% endif %}" {% if assistant.winner %}id="winner"{% endif %}>{{ assistant.name}}{% if assistant.winner %}<span class="badge">Winner!</span>{% endif %}</a>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        </div>
+{% endblock %}
+
+
+
+
+{% block js %}
+$(document).ready(function(){
+    $('html, body').animate({scrollTop: $("#winner").offset().top-200}, 1000);
+});
 {% endblock %}

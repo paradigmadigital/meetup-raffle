@@ -1,7 +1,8 @@
-import os
+from __future__ import unicode_literals
+import codecs
+
 import uuid
 from flask import Flask, request, render_template, url_for, redirect
-import json
 import random
 import boto3
 
@@ -43,7 +44,7 @@ def winner(raffle_name):
     tmp_file = '/tmp/{}'.format(uuid.uuid4())
     s3_client.download_file('meetup-raffle', raffle_name, tmp_file)
 
-    f = open(tmp_file)
+    f = codecs.open(tmp_file, encoding='utf-8')
     content = f.read()
 
     assistants = {}
@@ -55,16 +56,16 @@ def winner(raffle_name):
     for row in content.split('\n')[1:]:
         columns = row.split('\t')
         if len(columns) > 1 and not columns[TITLE_COLUMN]:  # skip empty rows and staff assistants
-            assistants[columns[1]] = {'name': columns[NAME_COLUMN], 'url': columns[URL_COLUMN]}
+            assistants[columns[1]] = {'name': columns[NAME_COLUMN], 'url': columns[URL_COLUMN], 'winner': False}
 
     logger.info('Read {} rows'.format(len(assistants)))
 
     winner_id = random.choice(list(assistants.keys()))
-    winner_data = assistants.get(winner_id)
+    assistants[winner_id]['winner'] = True
 
-    logger.info('Randomly get: (user: {}, name: {})'.format(winner_id, winner_data.get('nombre')))
+    logger.info('Randomly get: (user: {}, name: {})'.format(winner_id, assistants[winner_id]['name']))
 
-    return render_template('raffle.html', raffle_name=raffle_name, winner=winner_data)
+    return render_template('raffle.html', raffle_name=raffle_name, assistants=assistants.values())
 
 
 if __name__ == '__main__':
